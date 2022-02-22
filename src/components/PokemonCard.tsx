@@ -37,8 +37,6 @@ const PokemonCard = ({ pokemon }: Props ) => {
 
     }, [])
     
-
-
   return (
     <TouchableOpacity
         activeOpacity={ 0.9 }

@@ -1,4 +1,4 @@
-import { View, Platform, Text, FlatList, Dimensions } from 'react-native'
+import { View, Platform, Text, FlatList, Dimensions, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { SearchInput } from '../components/SearchInput';
@@ -21,11 +21,19 @@ const SearchScreen = () => {
 
     useEffect(() => {
         if( term.length === 0) return setPokemonFiltered([]);
-        setPokemonFiltered(
-            simplePokemonList.filter( 
-                (poke) => poke.name.toLowerCase().includes( term.toLowerCase() )
+        
+        if ( isNaN(Number(term)) ){
+            setPokemonFiltered(
+                simplePokemonList.filter( 
+                    (poke) => poke.name.toLowerCase().includes( term.toLowerCase() )
+                )
             )
-        )
+        } else {
+            const pokemonById = simplePokemonList.find( (poke) => poke.id === term)
+            setPokemonFiltered(
+                ( pokemonById ) ? [pokemonById] : []
+            )
+        }
     }, [term])
     
 
@@ -38,6 +46,10 @@ const SearchScreen = () => {
         flex:1,
         marginHorizontal: 20
     }}>
+        <Image 
+            source={ require('../assets/pokebola.png')}
+            style= { styles.pokeBG }
+        />
       
         <SearchInput
             onDebounce={ (value) => setTerm( value ) }
